@@ -1,0 +1,1 @@
+docker build -t joaoguilherme/luizalabs . && docker-compose up -d

@@ -1,0 +1,21 @@
+version: '3'
+services:
+  luizalabs-api:
+    image: joaoguilherme/luizalabs-api
+    links:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/testdb
+    ports: 
+      - "8080:8080"
+    depends_on:
+      - db
+  db:
+     container_name: db
+     image: postgres:9.0
+     environment:
+      - POSTGRES_DB=testdb
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+     ports:
+      - 5432:5432

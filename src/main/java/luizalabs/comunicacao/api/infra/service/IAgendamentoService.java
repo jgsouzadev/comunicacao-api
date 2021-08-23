@@ -2,6 +2,7 @@ package luizalabs.comunicacao.api.infra.service;
 
 import org.springframework.stereotype.Service;
 
+import javassist.NotFoundException;
 import luizalabs.comunicacao.api.domain.model.Comunicacao;
 import luizalabs.comunicacao.api.infra.dto.ComunicacaoDTO;
 
@@ -9,5 +10,7 @@ import luizalabs.comunicacao.api.infra.dto.ComunicacaoDTO;
 public interface IAgendamentoService {
 	String helloWorld();
 	
-	Comunicacao criarAgendamento(ComunicacaoDTO comunicacaoDTO) throws Exception;
+	Comunicacao criarAgendamento(ComunicacaoDTO comunicacaoDTO) throws RuntimeException;
+	
+	Boolean cancelarAgendamento(Long id) throws NotFoundException;
 }

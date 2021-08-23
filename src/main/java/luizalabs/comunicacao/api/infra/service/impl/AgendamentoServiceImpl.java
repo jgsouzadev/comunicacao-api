@@ -2,12 +2,13 @@ package luizalabs.comunicacao.api.infra.service.impl;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
+import javassist.NotFoundException;
 import luizalabs.comunicacao.api.domain.enumeration.TipoComunicacao;
 import luizalabs.comunicacao.api.domain.enumeration.TipoStatusMensagem;
 import luizalabs.comunicacao.api.domain.model.Comunicacao;
@@ -17,6 +18,7 @@ import luizalabs.comunicacao.api.infra.handler.errors.DestinatarioInvalidoExcept
 import luizalabs.comunicacao.api.infra.handler.errors.ParametroInvalidoException;
 import luizalabs.comunicacao.api.infra.repository.ComunicacaoRepository;
 import luizalabs.comunicacao.api.infra.service.IAgendamentoService;
+import luizalabs.comunicacao.api.infra.service.IConsultarAgendamentoService;
 
 @Service
 public class AgendamentoServiceImpl extends BaseServiceImpl implements IAgendamentoService{
@@ -24,6 +26,9 @@ public class AgendamentoServiceImpl extends BaseServiceImpl implements IAgendame
 	public AgendamentoServiceImpl(ComunicacaoRepository comunicacaoRepository) {
 		super(comunicacaoRepository);
 	}
+	
+	@Autowired
+	private IConsultarAgendamentoService consultarService;
 
 	@Override
 	public String helloWorld() {
@@ -31,11 +36,21 @@ public class AgendamentoServiceImpl extends BaseServiceImpl implements IAgendame
 	}
 
 	@Override
-	public Comunicacao criarAgendamento(ComunicacaoDTO comunicacaoDTO) throws Exception {
+	public Comunicacao criarAgendamento(ComunicacaoDTO comunicacaoDTO) throws RuntimeException {
 		if(!this.validarTipoComunicacaoComMensagem(comunicacaoDTO))
 			throw new DestinatarioInvalidoException("Destinatario não corresponde com o Tipo de Comunicação");
 		
 		return comunicacaoRepository.saveAndFlush(montarObjetoComunicacao(comunicacaoDTO));	
+	}
+	
+	@Override
+	public Boolean cancelarAgendamento(Long id) throws NotFoundException {
+
+		Comunicacao comunicacao = consultarService.consultarAgendamento(id);
+		comunicacao.getMensagem().setStatusMensagem(TipoStatusMensagem.CANCELADO);
+		comunicacaoRepository.saveAndFlush(comunicacao);
+		
+		return true;
 	}
 	
 	private Comunicacao montarObjetoComunicacao(ComunicacaoDTO comunicacao) {
@@ -56,6 +71,9 @@ public class AgendamentoServiceImpl extends BaseServiceImpl implements IAgendame
 		else 
 			this.validarTelefone(c.getDestinatario());
 			
+		if(c.getDataEnvioMensagem().isBefore(LocalDateTime.now()))
+			throw new ParametroInvalidoException("A data para o envio deve ser maior que a data de hoje");
+		
 		return true;
 	}
 	

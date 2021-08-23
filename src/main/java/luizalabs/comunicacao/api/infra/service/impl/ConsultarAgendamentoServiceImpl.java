@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import javassist.NotFoundException;
 import luizalabs.comunicacao.api.domain.model.Comunicacao;
 import luizalabs.comunicacao.api.infra.repository.ComunicacaoRepository;
 import luizalabs.comunicacao.api.infra.service.IConsultarAgendamentoService;
@@ -16,9 +17,13 @@ public class ConsultarAgendamentoServiceImpl extends BaseServiceImpl implements 
 	}
 
 	@Override
-	public Comunicacao consultarAgendamento(Long id) {
+	public Comunicacao consultarAgendamento(Long id) throws NotFoundException {
 		Optional<Comunicacao> comunicacao = comunicacaoRepository.findById(id);
-		return comunicacao.isPresent() ? comunicacao.get() : null;
+		
+		if(!comunicacao.isPresent())
+			throw new NotFoundException("Não foi encontrado uma comunicação com esse id");
+		
+		return comunicacao.get();
 	}
 
 }

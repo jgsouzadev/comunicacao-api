@@ -19,14 +19,11 @@ import luizalabs.comunicacao.api.infra.repository.ComunicacaoRepository;
 import luizalabs.comunicacao.api.infra.service.IAgendamentoService;
 
 @Service
-@AllArgsConstructor
-public class AgendamentoServiceImpl implements IAgendamentoService{
+public class AgendamentoServiceImpl extends BaseServiceImpl implements IAgendamentoService{
 
-	private ComunicacaoRepository comunicacaoRepository;
-	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-	private static final String TELEFONE_PATTERN = "(\\(?\\d{2}\\)?\\s)?(\\d{4,5}\\-\\d{4})";
-	private static final Pattern emailMatcher = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
-	private static final Pattern telefoneMatcher = Pattern.compile(TELEFONE_PATTERN);
+	public AgendamentoServiceImpl(ComunicacaoRepository comunicacaoRepository) {
+		super(comunicacaoRepository);
+	}
 
 	@Override
 	public String helloWorld() {

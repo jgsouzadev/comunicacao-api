@@ -6,6 +6,7 @@ services:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/testdb
+      - SPRING_PROFILES_ACTIVE=postgres
     ports: 
       - "8080:8080"
     depends_on:

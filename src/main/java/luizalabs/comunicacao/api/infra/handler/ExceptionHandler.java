@@ -27,6 +27,11 @@ class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<CustomThrowableErrorBody>(message, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(value = Exception.class)
+	protected ResponseEntity<CustomThrowableErrorBody> handleInternalServerError(Exception e, WebRequest request) {
+		CustomThrowableErrorBody message = 
+				new CustomThrowableErrorBody("Erro não esperado no servidor", e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<CustomThrowableErrorBody>(message, HttpStatus.BAD_REQUEST);
+	}
+	
 }
-
-

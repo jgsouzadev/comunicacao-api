@@ -7,11 +7,12 @@ RUN apk add maven
 
 COPY . .
 #faz o build da imagem
-RUN mvn clean package
+RUN mvn clean install -U
+
+#apaga o cache do container
+RUN rm -rf /var/cache/apk/*
 
 # transforma o executavel em uma imagem
-ARG JAR_FILE=target/*.jar
-
-COPY ${JAR_FILE} app.jar
+COPY *.jar app.jar
 
 ENTRYPOINT ["java","-jar","/app.jar"]

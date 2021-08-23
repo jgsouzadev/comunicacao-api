@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>luizalabs</groupId>
 	<artifactId>comunicacao.api</artifactId>
-	<version>1.3</version>
+	<version>1.4</version>
 	<name>api-comunicacao</name>
 	<description>Projeto API de comunicação</description>
 	<properties>

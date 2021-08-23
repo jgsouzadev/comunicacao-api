@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ import luizalabs.comunicacao.api.domain.enumeration.TipoStatusMensagem;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Mensagem {
 	
 	public Mensagem(String texto, LocalDateTime dataEnvio, String destinatario, TipoStatusMensagem status) {
@@ -44,5 +48,6 @@ public class Mensagem {
 	private LocalDateTime dataEnvioMensagem;
 	
 	@Column(name = "TP_STATUS_MENSAGEM")
+	@Enumerated(EnumType.STRING)
 	private TipoStatusMensagem statusMensagem;
 }

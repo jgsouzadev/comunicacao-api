@@ -61,6 +61,7 @@ public class AgendamentoServicesTest {
 		Comunicacao c = consultarService.consultarAgendamento(id);
 		Assertions.assertEquals(TipoStatusMensagem.ATIVO, c.getMensagem().getStatusMensagem());
 		agendamentoService.cancelarAgendamento(id);
+		c = consultarService.consultarAgendamento(id);
 		Assertions.assertEquals(TipoStatusMensagem.CANCELADO, c.getMensagem().getStatusMensagem());
 	}
 }

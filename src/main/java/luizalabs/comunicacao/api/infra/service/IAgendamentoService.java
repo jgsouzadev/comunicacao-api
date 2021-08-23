@@ -8,7 +8,6 @@ import luizalabs.comunicacao.api.infra.dto.ComunicacaoDTO;
 
 @Service
 public interface IAgendamentoService {
-	String helloWorld();
 	
 	Comunicacao criarAgendamento(ComunicacaoDTO comunicacaoDTO) throws RuntimeException;
 	

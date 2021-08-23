@@ -31,11 +31,6 @@ public class AgendamentoServiceImpl extends BaseServiceImpl implements IAgendame
 	private IConsultarAgendamentoService consultarService;
 
 	@Override
-	public String helloWorld() {
-		return "Hello World by Service";
-	}
-
-	@Override
 	public Comunicacao criarAgendamento(ComunicacaoDTO comunicacaoDTO) throws RuntimeException {
 		if(!this.validarTipoComunicacaoComMensagem(comunicacaoDTO))
 			throw new DestinatarioInvalidoException("Destinatario não corresponde com o Tipo de Comunicação");

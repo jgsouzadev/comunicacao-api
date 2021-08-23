@@ -20,11 +20,6 @@ public class ComunicacaoController extends BaseController {
 	public ComunicacaoController(IAgendamentoService agendamentoService, IConsultarAgendamentoService consultarService) {
 		super(agendamentoService, consultarService);
 	}
-
-	@GetMapping("/hello-world")
-	public String helloWorld() {
-		return agendamentoService.helloWorld();
-	}
 	
 	@GetMapping("/{id}")
 	public Comunicacao recuperarComunicacao(@PathVariable Long id) throws NotFoundException {

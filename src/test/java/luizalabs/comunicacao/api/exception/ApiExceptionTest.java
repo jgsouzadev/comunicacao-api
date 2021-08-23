@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 
 import javassist.NotFoundException;
 import luizalabs.comunicacao.api.domain.enumeration.TipoComunicacao;
@@ -18,6 +19,7 @@ import luizalabs.comunicacao.api.infra.service.IConsultarAgendamentoService;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Profile("test")
 public class ApiExceptionTest {
 	@Autowired
 	private IAgendamentoService agendamentoService;
@@ -36,7 +38,7 @@ public class ApiExceptionTest {
 	@Test
 	@Order(2)
 	void deveLancarExcecaoPorEmailErrado() {
-		ComunicacaoDTO comunicacaoDTO = new ComunicacaoDTO(TipoComunicacao.EMAIL, "ab@gmail.com.com", "Teste de mensagem", LocalDateTime.now());
+		ComunicacaoDTO comunicacaoDTO = new ComunicacaoDTO(TipoComunicacao.EMAIL, "abgmail.com", "Teste de mensagem", LocalDateTime.now());
 		Assertions.assertThrows(ParametroInvalidoException.class, () -> 
 		agendamentoService.criarAgendamento(comunicacaoDTO));
 	}

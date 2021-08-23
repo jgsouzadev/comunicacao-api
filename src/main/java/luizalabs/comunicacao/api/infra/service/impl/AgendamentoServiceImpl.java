@@ -81,6 +81,6 @@ public class AgendamentoServiceImpl extends BaseServiceImpl implements IAgendame
 	private void validarTelefone(String telefone) {
 		Matcher matcher = telefoneMatcher.matcher(telefone);
 		if(!matcher.matches())
-			throw new ParametroInvalidoException("O numero de telefone: " + telefone + " não é valido.");
+			throw new ParametroInvalidoException("O numero de telefone: " + telefone + " não é valido. Envie usando o formato 11 99999-8555 ");
 	}
 }

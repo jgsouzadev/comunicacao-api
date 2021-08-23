@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javassist.NotFoundException;
 import luizalabs.comunicacao.api.domain.enumeration.TipoComunicacao;
+import luizalabs.comunicacao.api.domain.enumeration.TipoStatusMensagem;
 import luizalabs.comunicacao.api.domain.model.Comunicacao;
 import luizalabs.comunicacao.api.infra.dto.ComunicacaoDTO;
 import luizalabs.comunicacao.api.infra.service.IAgendamentoService;
@@ -18,7 +19,7 @@ import luizalabs.comunicacao.api.infra.service.IConsultarAgendamentoService;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class AgendamentoServiceTest {
+public class AgendamentoServicesTest {
 	
 	@Autowired
 	private IAgendamentoService agendamentoService;
@@ -53,8 +54,13 @@ public class AgendamentoServiceTest {
 		Assertions.assertEquals("22 99871-1658", c.getMensagem().getDestinatario());
 	}
 	
-	
-	
-	
-	
+	@Test
+	@Order(4)
+	void deveAlterarOStatusParaCancelado() throws NotFoundException {
+		Long id = 1L;
+		Comunicacao c = consultarService.consultarAgendamento(id);
+		Assertions.assertEquals(TipoStatusMensagem.ATIVO, c.getMensagem().getStatusMensagem());
+		agendamentoService.cancelarAgendamento(id);
+		Assertions.assertEquals(TipoStatusMensagem.CANCELADO, c.getMensagem().getStatusMensagem());
+	}
 }
